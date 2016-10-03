@@ -35,7 +35,6 @@ if (isset($_POST['button'])) {
 
         $_SESSION['superuser'] = $_POST['usr'];
         $_SESSION['message'] = array('type' => $msgType, 'message' => $msg);
-        echo $_SESSION['superuser'];
         header('Location: /adminaccount');
 
 

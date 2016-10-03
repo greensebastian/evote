@@ -1,6 +1,6 @@
 <?php
 //require __DIR__."/slask.php";
-include $_SERVER['DOCUMENT_ROOT']."/data/config.php";
+include $_SERVER['DOCUMENT_ROOT']."/evote/data/config.php";
 //crypt($pass, '$6$'.$salt.'$');
 //crypt($pass, $hash) == $hash;
 class Evote {
@@ -256,7 +256,6 @@ class Evote {
             $sql4 = "UPDATE elections_codes SET active=(SELECT MAX(id) FROM elections) WHERE id=$id";
             $conn->multi_query($sql4);
             echo $conn->error;
-            echo $p;
             return TRUE;
         }else{
             return FALSE;
@@ -271,7 +270,6 @@ class Evote {
         $last_id = -1;
         if ($conn->query($sql) === TRUE) {
                 $last_id = $conn->insert_id;
-                echo "Database created successfully";
         } else {
                 echo "Error creating database: " . $conn->error;
                 $ok = FALSE;
@@ -282,9 +280,7 @@ class Evote {
             $sql2 .= "(\"$last_id\",\"$opt\", 0),";
         }
         $sql2 .= "(\"$last_id\",\"-Blank-\" , 0)";
-        if ($conn->query($sql2) === TRUE) {
-                echo "Database created successfully";
-        } else {
+        if ($conn->query($sql2) !== TRUE) {
                 echo "Error creating database: " . $conn->error;
                 $ok = FALSE;
         }
@@ -351,7 +347,6 @@ class Evote {
                         SET nbr_votes=(SELECT COUNT(id) FROM elections_usage WHERE alternative_id=$alternative_id)
                         WHERE id=$alternative_id";
                 $conn->query($sql3);
-                echo $alternative_id;
                 echo $conn->error;
             }
         }

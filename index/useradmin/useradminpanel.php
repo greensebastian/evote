@@ -2,7 +2,7 @@
 $access = array(0);
 $priv = $evote->getPrivilege($_SESSION["user"]);
 if(in_array($priv, $access)){
-    //require $_SERVER['DOCUMENT_ROOT'].'/data/config.php'
+    //require $_SERVER['DOCUMENT_ROOT'].'/evote/data/config.php'
 
 ?>
 

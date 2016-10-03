@@ -1,10 +1,10 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'].'/data/RandomInfo.php';
-require $_SERVER['DOCUMENT_ROOT'].'/data/Dialogue.php';
+require $_SERVER['DOCUMENT_ROOT'].'/evote/data/RandomInfo.php';
+require $_SERVER['DOCUMENT_ROOT'].'/evote/data/Dialogue.php';
 $dialogue = new dialogue();
 
 $startup = true;
-$filename = $_SERVER['DOCUMENT_ROOT'].'/data/config.php';
+$filename = $_SERVER['DOCUMENT_ROOT'].'/evote/data/config.php';
 if (file_exists($filename)) {
     $startup = false;
 }
@@ -42,7 +42,7 @@ if (isset($_POST['db_host']) &&
             fclose($file);
             $dialogue->appendMessage('Konfigurationen lyckades!', 'success');
 
-            include $_SERVER['DOCUMENT_ROOT'].'/data/evote.php';
+            include $_SERVER['DOCUMENT_ROOT'].'/evote/data/evote.php';
             $evote = new Evote();
             if(!$evote->usernameExists($su_name)){
                 $evote->createNewUser($su_name, $su_pass1, 0);
