@@ -13,15 +13,23 @@ class TableGenerator {
         }
 
         if ($res->num_rows > 0) {
-        	echo "<div class=\"well well-sm\" style=\"max-width: 400px\">";
+        	  echo "<div class=\"well well-sm\" style=\"max-width: 400px\">";
             echo "<div class=\"panel panel-default\">";
-    		echo "<table class=\"table table\">";
-    		$e_id = -1;
-    		$p = 1;
+    		    echo "<table class=\"table table\">";
+    		    $e_id = -1;
+    		    $p = 1;
             $last_votes = "";
             $limit = "";
+            $rows = [];
+            $blankVotes = 0;
             while($row = $res->fetch_assoc()) {
-                $tot = $row["tot"];
+              if ($row["name"] == "-Blank-") {
+                  $blankVotes = $row["votes"];
+              }
+              array_push($rows, $row);
+            }
+            foreach($rows as $row) {
+                $tot = $row["tot"] - $blankVotes;
                 $precent = "- ";
                 $max = $evote->getMaxAltByAltId($row["id"]);
                 if($tot != 0){
@@ -31,8 +39,8 @@ class TableGenerator {
                     echo "<tr class=\"rowheader\">
                         <th colspan=\"2\">".$row["e_name"]." <wbr>($tot röster, $max alt.)</th>
                         </tr>";
-            		$e_id = $row["e_id"];
-            		$p = 1;
+            		    $e_id = $row["e_id"];
+            		    $p = 1;
                     $limit = $max;
                 }
                 $style = "" ;
