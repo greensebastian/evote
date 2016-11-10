@@ -63,7 +63,15 @@ if(!$evote->ongoingSession()){
 
 						// Check if vote is both blank and something else
 						if (blankChecked && countChecked > 1){
-							return confirm('Om blank är vald räknas inget av dina andra val, vill du verkligen göra det?');
+							if (confirm('Om blank är vald räknas inget av dina andra val, vill du verkligen göra det?')){
+								for(var i = 0; i<checkboxes.length-1; i++){
+									checkboxes[i].checked = false;
+								}
+								return true;
+							}
+							else {
+								return false;
+							}
 						}
 						// Check if not all votes are used
 						else if (countChecked < max){
