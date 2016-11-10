@@ -20,7 +20,7 @@ if(!$evote->ongoingSession()){
 					echo "<h4>Du får rösta på <b>".$max."</b> av alternativen</h4>";
 				echo "</div>";
 				?>
-	    	    <form action="actions/votingpagehandler.php" method="POST" autocomplete="off">
+	    	    <form action="actions/votingpagehandler.php" method="POST" autocomplete="off" onsubmit="return confirmChoice()">
 	    	        <?php
                         $head = "";
 						$type = "checkbox";
@@ -46,6 +46,33 @@ if(!$evote->ongoingSession()){
 						echo "</div>";
 	    	        ?>
 					<script>
+					function confirmChoice(){
+						var max = <?php echo $evote->getMaxAlternatives() ?>;
+
+    					var checkboxes = document.getElementsByName("person[]");
+						var countChecked = 0;
+						var blankChecked = false;
+						for(var i = 0; i<checkboxes.length; i++){
+							if(checkboxes[i].checked == true){
+								if (i == checkboxes.length-1){
+									blankChecked = true;
+								}
+								countChecked++;
+							}
+						}
+
+						// Check if vote is both blank and something else
+						if (blankChecked && countChecked > 1){
+							return confirm('Om blank är vald räknas inget av dina andra val, vill du verkligen göra det?');
+						}
+						// Check if not all votes are used
+						else if (countChecked < max){
+							return confirm('Denna röst innebär att du vill vakantsätta ' + max-countChecked + ' poster. Vill du verkligen göra det?');
+						}
+						else {
+							return true;
+						}
+					}
 					function maxCheck(){
     					var max = <?php echo $evote->getMaxAlternatives() ?>;
 
