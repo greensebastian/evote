@@ -370,9 +370,14 @@ class Evote {
         $conn->close();
 
         // räkna totala antalet röster
-        $conn = $this->connect();
+        /*$conn = $this->connect();
         $sql3 = "UPDATE elections AS t1 SET tot_votes = ( SELECT SUM( nbr_votes )
                 FROM elections_alternatives AS t2
+                WHERE t2.election_id = (
+                SELECT MAX( t1.id ) ) )";*/
+        // räkna hur många som röstade
+        $sql3 = "UPDATE elections AS t1 SET tot_votes = ( SELECT COUNT(DISTINCT code_id )
+                FROM elections_usage AS t2
                 WHERE t2.election_id = (
                 SELECT MAX( t1.id ) ) )";
         $conn->query($sql3);
