@@ -75,7 +75,7 @@ if(!$evote->ongoingSession()){
 						}
 						// Check if not all votes are used
 						else if (countChecked < max){
-							return confirm('Denna röst innebär att du vill vakantsätta ' + max-countChecked + ' poster. Vill du verkligen göra det?');
+							return confirm('Denna röst innebär att du vill vakantsätta ' + (max-countChecked) + ' poster. Vill du verkligen göra det?');
 						}
 						else {
 							return true;
